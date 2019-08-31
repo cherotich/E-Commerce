@@ -1,8 +1,11 @@
 from django.urls import path
-from .views import item_list, checkout_page, product_page
+from .views import HomeView, checkout_page, ItemDetailView,add_to_cart,remove_from_cart
 app_name = 'core'
 urlpatterns= [
-    path('', item_list, name= 'item_list'),
-    path('templates/checkout-page.html', checkout_page, name= 'checkout_page'),
-    path('templates/product-page.html', product_page, name= 'product_page')
+    path('', HomeView.as_view(), name= 'home_page'),
+    path('checkout-page', checkout_page, name= 'checkout_page'),
+    path('product-page/<slug>/', ItemDetailView.as_view(), name= 'product_page'),
+    path('add-to-cart/<slug>', add_to_cart, name= 'add-to-cart'),
+    path('remove-from-cart/<slug>', remove_from_cart, name= 'remove-from-cart')
+    
 ]

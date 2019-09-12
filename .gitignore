@@ -1,2 +1,4 @@
 env
 .vscode
+core/migrations/_pycache_/
+core/_pycache_/

@@ -1,4 +1,5 @@
 {% load static %}
+{% load cart_templates_tags %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -6,11 +7,13 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <title>Material Design Bootstrap</title>
   <!-- Font Awesome -->
-  <link rel="stylesheet" href="{% static 'https://use.fontawesome.com/releases/v5.8.2/css/all.css' %}">
+  <link  href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" rel="stylesheet" type="text/css">
+    <title>{% block head_title %}{% endblock %}</title>
+    {% block extra_head %}
+    {% endblock %}
   <!-- Bootstrap core CSS -->
-    <link href=" {% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
   <!-- Material Design Bootstrap -->
   <link href="{% static 'css/mdb.min.css' %}" rel="stylesheet">
   <!-- Your custom styles (optional) -->
@@ -54,10 +57,8 @@
     <div class="container">
 
       <!-- Brand -->
-      <a class="navbar-brand waves-effect" href="{% static 'https://mdbootstrap.com/docs/jquery/'%}" target="_blank">
-        <strong class="blue-text">MDB</strong>
-      </a>
-
+      
+{% comment %} <img src="{% static 'logo.jpg' %}" /> {% endcomment %}
       <!-- Collapse -->
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
         aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -69,13 +70,14 @@
 
         <!-- Left -->
         <ul class="navbar-nav mr-auto">
-          <li class="nav-item active">
+           <li class="nav-item active">
             <a class="nav-link waves-effect" href=" {% url 'core:home_page' %}">Home
               <span class="sr-only">(current)</span>
             </a>
           </li>
+          {% comment %}
           <li class="nav-item">
-            <a class="nav-link waves-effect" href=" {% url 'core:checkout_page' %}">Checkout</a>
+            <a class="nav-link waves-effect" href=" {% url 'core:checkout_page' %}">Checkout</a> {% endcomment %}
 
           {% comment %} </li>
           <li class="nav-item">
@@ -86,29 +88,34 @@
 
         <!-- Right -->
         <ul class="navbar-nav nav-flex-icons">
+        {% if request.user.is_authenticated %}
           <li class="nav-item">
             <a class="nav-link waves-effect">
-              <span class="badge red z-depth-1 mr-1"> 1 </span>
-              <i class="fas fa-shopping-cart"></i>
-              <span class="clearfix d-none d-sm-inline-block"> Cart </span>
+              <span class="badge red z-depth-1 mr-1"> {{request.user|add_item_count }}</span>
+              <i class="fa fa-shopping-basket"  aria-hidden="true"></i>
+              <span class="clearfix d-none d-sm-inline-block fa fa-shopping-cart "> Cart </span>
             </a>
           </li>
-          <li class="nav-item">
-            <a href="{% static 'https://www.facebook.com/mdbootstrap'%}" class="nav-link waves-effect" target="_blank">
-              <i class="fab fa-facebook-f"></i>
+            <li class="nav-item">
+            <a class="nav-link waves-effect" href= "{% url 'account_logout' %}">
+             <span class="clearfix d-none d-sm-inline-block"> Logout </span>
             </a>
           </li>
-          <li class="nav-item">
-            <a href="{% static 'https://twitter.com/MDBootstrap' %}" class="nav-link waves-effect" target="_blank">
-              <i class="fab fa-twitter"></i>
+          {% else %}
+         <li class="nav-item">
+            <a class="nav-link waves-effect" href= "{% url 'account_login' %}">
+             
+              <span class="clearfix d-none d-sm-inline-block"> Login </span>
             </a>
           </li>
-          <li class="nav-item">
-            <a href="{% static 'https://github.com/mdbootstrap/bootstrap-material-design' %}" class="nav-link border border-light rounded waves-effect"
-              target="_blank">
-              <i class="fab fa-github mr-2"></i>MDB GitHub
+           <li class="nav-item">
+            <a class="nav-link waves-effect" href= "{% url 'account_signup' %}">
+             
+              <span class="clearfix d-none d-sm-inline-block"> Signup </span>
             </a>
           </li>
+          {% endif %}
+         
         </ul>
 
       </div>
@@ -132,27 +139,17 @@
 </div>
     {% block content  %}
     {% endblock content %}
+     {% block extra_body %}
+    {% endblock %}
     <!--Footer-->
   <footer class="page-footer text-center font-small mt-4 wow fadeIn">
 
-    <!--Call to action-->
-    <div class="pt-4">
-      <a class="btn btn-outline-white" href="{% static 'https://mdbootstrap.com/docs/jquery/getting-started/download/'%}" target="_blank"
-        role="button">Download MDB
-        <i class="fas fa-download ml-2"></i>
-      </a>
-      <a class="btn btn-outline-white" href="{% static 'https://mdbootstrap.com/education/bootstrap/'%}" target="_blank" role="button">Start
-        free tutorial
-        <i class="fas fa-graduation-cap ml-2"></i>
-      </a>
-    </div>
-    <!--/.Call to action-->
 
     <hr class="my-4">
 
     <!-- Social icons -->
     <div class="pb-4">
-       <a href="{% static 'https://www.facebook.com/mdbootstrap'%}" class="nav-link waves-effect" target="_blank">
+       <a href="https://www.facebook.com/mdbootstrap" class="nav-link waves-effect" target="_blank">
         <i class="fab fa-facebook-f mr-3"></i>
       </a>
 
@@ -187,7 +184,7 @@
   <!--Copyright-->
     <div class="footer-copyright py-3">
       © 2019 Copyright:
-      <a href="{% static 'https://mdbootstrap.com/education/bootstrap/'%}" target="_blank"> MDBootstrap.com </a>
+      <a href="{% static 'https://mdbootstrap.com/education/bootstrap/'%}" target="_blank"> Caroline </a>
     </div>
     <!--/.Copyright-->
  </footer>
@@ -212,3 +209,6 @@
 </body>
 
 </html>
+
+
+
